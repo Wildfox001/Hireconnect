@@ -1,122 +1,95 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('jobs');
+
+  const sampleJobs = [
+    { id: 1, title: 'Frontend React Developer', company: 'Qveto Tech', location: 'Remote', stipend: '₹6,000/mo' },
+    { id: 2, title: 'Backend Node.js Intern', company: 'HireConnect Systems', location: 'Bangalore', stipend: '₹8,000/mo' },
+    { id: 3, title: 'Full Stack Web Developer', company: 'CloudScale India', location: 'Remote', stipend: '₹10,000/mo' },
+  ];
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div>
+      <nav className="navbar">
+        <h2>HireConnect — Candidate Portal</h2>
+        <div className="nav-links">
+          <button className={activeTab === 'jobs' ? 'active' : ''} onClick={() => setActiveTab('jobs')}>
+            Available Jobs
+          </button>
+          <button className={activeTab === 'login' ? 'active' : ''} onClick={() => setActiveTab('login')}>
+            Login
+          </button>
+          <button className={activeTab === 'register' ? 'active' : ''} onClick={() => setActiveTab('register')}>
+            Register
+          </button>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </nav>
 
-      <div className="ticks"></div>
+      <div className="container">
+        {activeTab === 'jobs' && (
+          <div>
+            <h3>Available Job Openings</h3>
+            <p style={{ marginBottom: '15px', color: '#64748b' }}>Browse and apply for latest roles</p>
+            {sampleJobs.map((job) => (
+              <div key={job.id} className="card job-card">
+                <div>
+                  <h4>{job.title}</h4>
+                  <p>{job.company} • {job.location} • <strong>{job.stipend}</strong></p>
+                </div>
+                <button className="btn-primary" onClick={() => alert(`Applied for ${job.title}!`)}>
+                  Apply Now
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {activeTab === 'login' && (
+          <div className="card" style={{ maxWidth: '450px', margin: '0 auto' }}>
+            <h3 style={{ marginBottom: '15px' }}>Candidate Login</h3>
+            <form onSubmit={(e) => { e.preventDefault(); alert('Login UI Tested!'); }}>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="harshit@example.com" required />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="Enter your password" required />
+              </div>
+              <button type="submit" className="btn-primary" style={{ width: '100%' }}>Login</button>
+            </form>
+          </div>
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {activeTab === 'register' && (
+          <div className="card" style={{ maxWidth: '450px', margin: '0 auto' }}>
+            <h3 style={{ marginBottom: '15px' }}>Create Candidate Account</h3>
+            <form onSubmit={(e) => { e.preventDefault(); alert('Registration UI Tested!'); }}>
+              <div className="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Prince Kaushal" required />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="harshit@example.com" required />
+              </div>
+              <div className="form-group">
+                <label>Skills (e.g. HTML, CSS, React)</label>
+                <input type="text" placeholder="HTML, CSS, JavaScript" required />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="Create a password" required />
+              </div>
+              <button type="submit" className="btn-primary" style={{ width: '100%' }}>Register</button>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
